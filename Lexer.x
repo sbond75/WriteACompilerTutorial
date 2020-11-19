@@ -3,8 +3,6 @@
 
 module Lexer (alexScanTokens) where
 
-data Token = Let | In | Sym Char | Var String | Int Int deriving (Eq, Show)
-
 }
 
 %wrapper "basic"
@@ -19,3 +17,7 @@ tokens :-
   $digit+ { \s -> Int (read s) }
   [\=\+\-\*\/\(\)]      { \s -> Sym (head s) }
   $alpha [$alpha $digit \_ \']*{ \s -> Var s }
+
+{
+data Token = Let | In | Sym Char | Var String | Int Int deriving (Eq, Show)
+}

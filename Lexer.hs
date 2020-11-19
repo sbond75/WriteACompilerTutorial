@@ -6,8 +6,6 @@
 
 module Lexer (alexScanTokens) where
 
-data Token = Let | In | Sym Char | Var String | Int Int deriving (Eq, Show)
-
 
 #if __GLASGOW_HASKELL__ >= 603
 #include "ghcconfig.h"
@@ -3627,6 +3625,10 @@ alex_actions = array (0 :: Int, 9)
   , (1,alex_action_6)
   , (0,alex_action_6)
   ]
+
+{-# LINE 21 "Lexer.x" #-}
+
+data Token = Let | In | Sym Char | Var String | Int Int deriving (Eq, Show)
 
 alex_action_2 =  \s -> Let 
 alex_action_3 = \s -> In
