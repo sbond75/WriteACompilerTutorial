@@ -469,8 +469,8 @@ alex_base = listArray (0 :: Int, 20)
   , 703
   , 948
   , -37
-  , -24
-  , 0
+  , 786
+  , 794
   , 1032
   , 1116
   , 1200
@@ -500,7 +500,7 @@ alex_table = listArray (0 :: Int, 1539)
   , 14
   , 14
   , 14
-  , 11
+  , 0
   , 0
   , 0
   , 10
@@ -1305,6 +1305,28 @@ alex_table = listArray (0 :: Int, 1539)
   , 18
   , 18
   , 18
+  , 16
+  , 16
+  , 16
+  , 16
+  , 0
+  , 11
+  , 0
+  , 16
+  , 16
+  , 16
+  , 16
+  , 16
+  , 0
+  , 16
+  , 0
+  , 16
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 16
   , 0
   , 0
   , 0
@@ -1312,29 +1334,7 @@ alex_table = listArray (0 :: Int, 1539)
   , 0
   , 0
   , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
+  , 16
   , 0
   , 0
   , 0
@@ -2044,7 +2044,7 @@ alex_check = listArray (0 :: Int, 1539)
   , 55
   , 56
   , 57
-  , 45
+  , -1
   , -1
   , -1
   , 32
@@ -2849,6 +2849,28 @@ alex_check = listArray (0 :: Int, 1539)
   , 120
   , 121
   , 122
+  , 40
+  , 41
+  , 42
+  , 43
+  , -1
+  , 45
+  , -1
+  , 47
+  , 40
+  , 41
+  , 42
+  , 43
+  , -1
+  , 45
+  , -1
+  , 47
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , 61
   , -1
   , -1
   , -1
@@ -2856,29 +2878,7 @@ alex_check = listArray (0 :: Int, 1539)
   , -1
   , -1
   , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
+  , 61
   , -1
   , -1
   , -1
@@ -3628,12 +3628,12 @@ alex_actions = array (0 :: Int, 9)
 
 {-# LINE 21 "Lexer.x" #-}
 
-data Token = Let | In | Sym Char | Var String | Int Int deriving (Eq, Show)
+data Token = Let | In | Sym String | Var String | Int Int deriving (Eq, Show)
 
 alex_action_2 =  \s -> Let 
 alex_action_3 = \s -> In
 alex_action_4 =  \s -> Int (read s) 
-alex_action_5 =  \s -> Sym (head s) 
+alex_action_5 =  \s -> Sym s 
 alex_action_6 =  \s -> Var s 
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 -- -----------------------------------------------------------------------------

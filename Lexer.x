@@ -15,9 +15,9 @@ tokens :-
   let { \s -> Let }
   in {\s -> In}
   $digit+ { \s -> Int (read s) }
-  [\=\+\-\*\/\(\)]      { \s -> Sym (head s) }
+  [\=\+\-\*\/\(\)]+      { \s -> Sym s }
   $alpha [$alpha $digit \_ \']*{ \s -> Var s }
 
 {
-data Token = Let | In | Sym Char | Var String | Int Int deriving (Eq, Show)
+data Token = Let | In | Sym String | Var String | Int Int deriving (Eq, Show)
 }
