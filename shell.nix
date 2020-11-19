@@ -1,5 +1,6 @@
 with import <nixpkgs> {};
 
 mkShell {
-  buildInputs = [ haskellPackages.happy ];
+  buildInputs = [ haskellPackages.happy 
+                 haskellPackages.alex ];
 }

@@ -1,1 +1,2 @@
 https://stackoverflow.com/questions/37036069/haskell-happy-parser-error-mismatching-types-and-infinite-type
+http://dev.stephendiehl.com/fun/008_extended_parser.html
