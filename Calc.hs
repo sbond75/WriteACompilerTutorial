@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -w #-}
 module Calc where
 import Data.Char
+import Control.Monad.Except
 import qualified Data.Array as Happy_Data_Array
 import qualified Data.Bits as Bits
 import Control.Applicative(Applicative(..))
@@ -262,33 +263,27 @@ happyNewToken action sts stk (tk:tks) =
 happyError_ explist 19 tk tks = happyError' (tks, explist)
 happyError_ explist _ tk tks = happyError' ((tk:tks), explist)
 
-newtype HappyIdentity a = HappyIdentity a
-happyIdentity = HappyIdentity
-happyRunIdentity (HappyIdentity a) = a
-
-instance Functor HappyIdentity where
-    fmap f (HappyIdentity a) = HappyIdentity (f a)
-
-instance Applicative HappyIdentity where
-    pure  = HappyIdentity
-    (<*>) = ap
-instance Monad HappyIdentity where
-    return = pure
-    (HappyIdentity p) >>= q = q p
-
-happyThen :: () => HappyIdentity a -> (a -> HappyIdentity b) -> HappyIdentity b
-happyThen = (>>=)
-happyReturn :: () => a -> HappyIdentity a
+happyThen :: () => Except String a -> (a -> Except String b) -> Except String b
+happyThen = ((>>=))
+happyReturn :: () => a -> Except String a
 happyReturn = (return)
-happyThen1 m k tks = (>>=) m (\a -> k a tks)
-happyReturn1 :: () => a -> b -> HappyIdentity a
+happyThen1 m k tks = ((>>=)) m (\a -> k a tks)
+happyReturn1 :: () => a -> b -> Except String a
 happyReturn1 = \a tks -> (return) a
-happyError' :: () => ([(Token)], [String]) -> HappyIdentity a
-happyError' = HappyIdentity . (\(tokens, _) -> happyError tokens)
-calc tks = happyRunIdentity happySomeParser where
+happyError' :: () => ([(Token)], [String]) -> Except String a
+happyError' = (\(tokens, _) -> parseError tokens)
+calc tks = happySomeParser where
  happySomeParser = happyThen (happyParse action_0 tks) (\x -> case x of {HappyAbsSyn4 z -> happyReturn z; _other -> notHappyAtAll })
 
 happySeq = happyDontSeq
+
+
+parseError :: [Token] -> Except String a
+parseError (l:ls) = throwError (show l)
+parseError [] = throwError "Unexpected end of Input"
+
+
+
 
 
 happyError :: [Token] -> a
@@ -315,6 +310,7 @@ data Token
 	| TokenDiv
 	| TokenOB
 	| TokenCB
+	deriving Show
 
 
 

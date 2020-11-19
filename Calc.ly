@@ -1,6 +1,7 @@
 > {
 > module Calc where
 > import Data.Char
+> import Control.Monad.Except
 > }
 
 First thing to declare is the name of your parser,
@@ -8,6 +9,10 @@ and the type of the tokens the parser reads.
 
 > %name calc
 > %tokentype { Token }
+
+Parser monad
+> %monad { Except String } { (>>=) } { return }
+> %error { parseError }
 
 The parser will be of type [Token] -> ?, where ? is determined by the
 production rules.  Now we declare all the possible tokens:
@@ -56,6 +61,10 @@ and make in complete:
 
 > {
 
+> parseError :: [Token] -> Except String a
+> parseError (l:ls) = throwError (show l)
+> parseError [] = throwError "Unexpected end of Input"
+
 All parsers must declare this function, 
 which is called when an error is detected.
 Note that currently we do no error recovery.
@@ -84,6 +93,7 @@ The datastructure for the tokens...
 >	| TokenDiv
 >	| TokenOB
 >	| TokenCB
+> 	deriving Show
 
 .. and a simple lexer that returns this datastructure.
 
