@@ -8,16 +8,37 @@ module Lexer (alexScanTokens) where
 %wrapper "basic"
 $digit = 0-9
 $alpha = [a-zA-Z]
+-- $ident = [ $alpha \_ ] [ $alpha $digit \_ ]*
 
 tokens :-
+-- Ignore whitespace?
   $white+ ;
-  "--".* ;
-  let { \s -> Let }
-  in {\s -> In}
-  $digit+ { \s -> Int (read s) }
-  [\=\+\-\*\/\(\)]+      { \s -> Sym s }
+-- Comments
+  "//".* ;
+  int { \s -> TokenInt }
+  main {\s -> TokenMain}
+  "("             { \s -> TokenOP }
+  ")"             { \s -> TokenCP }
+  "{"             { \s -> TokenOB }
+  "}"             { \s -> TokenCB }
+  return        { \s -> TokenRet }
+  "2"             { \s -> Token2 }
+  ";"  { \s -> TokenSemic } 
+  $digit+ { \s -> TokenLit (read s) }
+  $alpha+ { \s -> TokenIdent s }
+--  [\=\+\-\*\/\(\)]+      { \s -> Sym s }
   $alpha [$alpha $digit \_ \']*{ \s -> Var s }
 
 {
-data Token = Let | In | Sym String | Var String | Int Int deriving (Eq, Show)
+data Token = TokenInt 
+           | TokenMain
+           | TokenOP | TokenCP | TokenOB | TokenCB
+           | TokenRet
+           | Token2
+           | TokenSemic
+           | TokenLit Int
+           | TokenIdent String
+           | Sym String
+           | Var String
+           deriving (Eq, Show)
 }

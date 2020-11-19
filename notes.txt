@@ -1,0 +1,3 @@
+  $alpha [$alpha $digit \_ \']*{ \s -> Var s }
+
+[] is OR'ed
