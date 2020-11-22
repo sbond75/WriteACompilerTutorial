@@ -2,10 +2,13 @@
 module Parser where
 
 import Lexer
+import Control.Monad.Except
 }
 
 %name happyParser
 %tokentype { Token }
+%monad { Except String } { (>>=) } { return }
+%error { parseError }
 
 %token
         'int' {TokenInt}
@@ -36,7 +39,11 @@ data Term = ASTProgram Term {- <--ASTFunctionDef -}
           | ASTExpr Int {- <-- Int -}
           deriving Show
 
+parseError :: [Token] -> Except String a
+parseError (l:ls) = throwError (show l)
+parseError [] = throwError "Unexpected end of Input"
+
 happyError = error "parse error"
-failUnless b msg = if b then () else error msg 
+failUnless b msg = if b then () else error msg
 
 }
