@@ -4,7 +4,7 @@
 
 {-# OPTIONS_GHC -w #-}
 
-module Lexer (alexScanTokens) where
+module Lexer where
 
 
 #if __GLASGOW_HASKELL__ >= 603

@@ -1,7 +1,7 @@
 {
 {-# OPTIONS_GHC -w #-}
 
-module Lexer (alexScanTokens) where
+module Lexer where
 
 }
 
